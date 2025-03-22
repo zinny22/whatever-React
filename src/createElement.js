@@ -3,7 +3,12 @@ function createElement(type, props, ...children) {
     type,
     props: {
       ...(props || {}),
-      children,
+      children:
+        children.length === 0
+          ? undefined
+          : children.length === 1
+          ? children[0]
+          : children,
     },
   };
 }
