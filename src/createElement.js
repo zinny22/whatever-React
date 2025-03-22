@@ -1,4 +1,4 @@
-export function createElement(type, props, ...children) {
+function createElement(type, props, ...children) {
   return {
     type,
     props: {
@@ -7,3 +7,5 @@ export function createElement(type, props, ...children) {
     },
   };
 }
+
+export default createElement;
