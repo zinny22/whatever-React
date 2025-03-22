@@ -1,5 +1,10 @@
-function Main() {
-  return <h1>Hello World!</h1>;
-}
+import { createElement } from "./createElement";
 
-export default Main;
+const vdom = (
+  <div>
+    <h1>Hello</h1>
+    <p>World</p>
+  </div>
+);
+
+console.log("Virtual DOM:", vdom);
