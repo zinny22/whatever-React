@@ -1,3 +1,5 @@
+import createElement from "../lib/createElement";
+
 function Header() {
   return <h1>요건 헤더 값</h1>;
 }

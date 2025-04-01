@@ -1,3 +1,5 @@
+import createElement from "../lib/createElement";
+
 function Content() {
   return <p>여기는 컨텐츠 값</p>;
 }
