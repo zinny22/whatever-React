@@ -1,6 +1,6 @@
 import createElement from "./createElement";
-import Header from "./header";
-import Content from "./content";
+import Header from "./components/header";
+import Content from "./components/content";
 
 const vdom = (
   <div>
