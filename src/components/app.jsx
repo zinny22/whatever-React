@@ -1,13 +1,12 @@
 import createElement from "../lib/createElement";
-import Header from "./Header";
-import Content from "./Content";
+import TodoList from "./TodoList";
+import Header from "./header";
 
 export default function App() {
   return (
-    <div id="app">
+    <div class="container">
       <Header />
-      <Content />
-      <p>결과는 제대로 나오는걸까?</p>
+      <TodoList />
     </div>
   );
 }

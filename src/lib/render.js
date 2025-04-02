@@ -25,8 +25,11 @@ function render(vdom, container) {
   // 4. props 처리 (children 제외)
   const { children, ...restProps } = vdom.props || {};
   for (const key in restProps) {
-    // onClick, onChange, onSubmit 등 이벤트 핸들러
-    if (key.startsWith("on")) {
+    if (key === "ref" && typeof restProps[key] === "function") {
+      // ref 함수 호출해서 el 전달
+      restProps[key](el);
+    } else if (key.startsWith("on")) {
+      // onClick, onChange, onSubmit 등 이벤트 핸들러
       const event = key.slice(2).toLowerCase();
       el.addEventListener(event, restProps[key]);
     } else {

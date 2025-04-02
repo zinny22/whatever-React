@@ -1,7 +1,7 @@
 import createElement from "../lib/createElement";
 
 function Header() {
-  return <h1>요건 헤더 값</h1>;
+  return <h1 class="title">TODO LIST</h1>;
 }
 
 export default Header;
