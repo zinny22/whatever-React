@@ -1,7 +1,13 @@
 import createElement from "../lib/createElement";
+import useState from "../lib/useState";
 
-function Content() {
-  return <p>여기는 컨텐츠 값</p>;
+export default function Content() {
+  const [count, setCount] = useState(6);
+
+  return (
+    <div>
+      <p>카운터: {count}???</p>
+      <button onClick={() => setCount(count + 1)}>증가</button>
+    </div>
+  );
 }
-
-export default Content;

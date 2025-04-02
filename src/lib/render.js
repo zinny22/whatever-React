@@ -5,9 +5,9 @@
  * @returns void
  */
 function render(vdom, container) {
-  // 1. 문자열 처리 (텍스트 노드)
-  if (typeof vdom === "string") {
-    const textNode = document.createTextNode(vdom);
+  // 1. 텍스트 & 숫자 노드 처리
+  if (typeof vdom === "string" || typeof vdom === "number") {
+    const textNode = document.createTextNode(String(vdom));
     container.appendChild(textNode);
     return;
   }
@@ -25,7 +25,13 @@ function render(vdom, container) {
   // 4. props 처리 (children 제외)
   const { children, ...restProps } = vdom.props || {};
   for (const key in restProps) {
-    el.setAttribute(key, restProps[key]);
+    // onClick, onChange, onSubmit 등 이벤트 핸들러
+    if (key.startsWith("on")) {
+      const event = key.slice(2).toLowerCase();
+      el.addEventListener(event, restProps[key]);
+    } else {
+      el.setAttribute(key, restProps[key]);
+    }
   }
 
   // 5. children 재귀 렌더링
