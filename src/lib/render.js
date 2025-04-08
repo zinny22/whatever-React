@@ -32,6 +32,21 @@ function render(vdom, container) {
       // onClick, onChange, onSubmit 등 이벤트 핸들러
       const event = key.slice(2).toLowerCase();
       el.addEventListener(event, restProps[key]);
+    } else if (key === "className") {
+      // class 속성 처리
+      el.setAttribute("class", restProps[key]);
+    } else if (key === "htmlFor") {
+      // label의 for 속성 처리
+      el.setAttribute("for", restProps[key]);
+    } else if (key === "style" && typeof restProps[key] === "object") {
+      // style 객체를 문자열로 변환
+      const styleStr = Object.entries(restProps[key])
+        .map(
+          ([prop, value]) =>
+            `${prop.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)}:${value}`
+        )
+        .join(";");
+      el.setAttribute("style", styleStr);
     } else {
       el.setAttribute(key, restProps[key]);
     }
