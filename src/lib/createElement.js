@@ -6,9 +6,12 @@
  * @returns {Object} - VNode
  */
 function createElement(type, props, ...children) {
-  const filteredChildren = children.filter(
-    (child) => child !== undefined && child !== null && child !== false
-  );
+  // children이 undefined인 경우를 처리
+  const filteredChildren = !children
+    ? []
+    : children.filter(
+        (child) => child !== undefined && child !== null && child !== false
+      );
 
   // props와 children이 모두 없으면 props 생략
   if (!props && filteredChildren.length === 0) {
