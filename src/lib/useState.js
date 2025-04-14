@@ -1,4 +1,3 @@
-import App from "../components/App";
 import { rerender } from "./render";
 import createElement from "./createElement";
 
@@ -24,14 +23,14 @@ export default function useState(initialValue) {
 
   const setState = (newValue) => {
     state.states[index] = newValue;
+    console.log("setState:", index, newValue, state.states);
     resetIndex();
-    rerender(createElement(App));
+    rerender();
   };
 
   const value = state.states[index];
 
   state.currentIndex++;
-
   return [value, setState];
 }
 

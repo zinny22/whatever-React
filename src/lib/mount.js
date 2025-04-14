@@ -4,7 +4,6 @@
  * @returns {Element} DOM 요소
  */
 function mount(vdom) {
-  console.log(vdom);
   // 1. 텍스트 노드 처리
   if (typeof vdom === "string" || typeof vdom === "number") {
     return document.createTextNode(String(vdom));

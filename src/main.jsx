@@ -6,4 +6,5 @@ import App from "./components/App";
 import { resetIndex } from "./lib/useState";
 
 resetIndex();
-render(<App />, document.getElementById("app"));
+// JSX <App />는 함수 자체를 넘기는 것이고, App()은 VNode를 직접 실행해서 만든 결과를 넘기는 것!
+render(App(), document.getElementById("app"));

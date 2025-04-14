@@ -1,3 +1,4 @@
+import App from "../components/App";
 import diff from "./diff";
 import mount from "./mount";
 import { resetIndex } from "./useState";
@@ -8,23 +9,23 @@ let rootContainer = null;
 
 function render(vdom, container) {
   if (!prevVNode) {
-    const el = mount(vdom); // ✅ mount 결과 저장
-    rootDom = el; // ✅ diff 기준 노드로 지정
+    const el = mount(vdom);
+    rootDom = el;
     container.appendChild(el);
     rootContainer = container;
   } else {
-    diff(prevVNode, vdom, rootDom); // ✅ 반드시 rootDom 기준으로 비교
+    diff(prevVNode, vdom, rootDom);
   }
 
   prevVNode = vdom;
 }
 
-export function rerender(vdom) {
-  resetIndex();
-  if (rootContainer && rootDom) {
-    diff(prevVNode, vdom, rootDom); // ✅ rootDom을 기준으로 비교
-    prevVNode = vdom;
-  }
-}
+export function rerender() {
+  if (!rootContainer) return;
 
+  resetIndex();
+  const newVNode = App();
+  diff(prevVNode, newVNode, rootDom);
+  prevVNode = newVNode;
+}
 export default render;

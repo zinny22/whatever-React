@@ -4,11 +4,21 @@ import Header from "./header";
 import useState from "../lib/useState";
 
 export default function App() {
-  const [count, setCount] = useState(1);
+  console.log("🌱 App 실행됨");
+
+  const [count, setCount] = useState(0);
+
   return (
     <div class="container">
-      <p>{count}</p>
-      <button onClick={() => setCount(count + 1)}>+</button>
+      <Header />
+      <p>{count.toString()}</p>
+      <button
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        +
+      </button>
       {/* <Header />
       <TodoList /> */}
     </div>
