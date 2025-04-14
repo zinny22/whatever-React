@@ -1,13 +1,10 @@
 import createElement from "../lib/createElement";
 import useState from "../lib/useState";
 import TodoItem from "./TodoItem";
-import Progress from "./Progress";
-import { globalState } from "../lib/golbalState";
 
 function TodoList() {
   let inputEl;
   const [todos, setTodos] = useState([]);
-  const completedTodos = globalState.completedTodos;
 
   const onChangeRef = (e) => (inputEl = e);
 
@@ -45,20 +42,14 @@ function TodoList() {
         </button>
       </div>
 
-      <Progress total={todos?.length} completed={completedTodos?.length} />
-
       <ul>
-        {!todos?.length ? (
-          <p class="todo-empty-text">작성한 할일이 없습니다.</p>
-        ) : (
-          todos.map((todo, index) => (
-            <TodoItem
-              key={index}
-              todo={todo}
-              onClickDelete={() => onClickDelete(index)}
-            />
-          ))
-        )}
+        {todos.map((todo, index) => (
+          <TodoItem
+            key={index}
+            todo={todo}
+            onClickDelete={() => onClickDelete(index)}
+          />
+        ))}
       </ul>
     </div>
   );

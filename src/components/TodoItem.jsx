@@ -1,21 +1,11 @@
 import createElement from "../lib/createElement";
 import useState from "../lib/useState";
-import { globalState, setGlobalState } from "../lib/golbalState";
 
 function TodoItem({ todo, onClickDelete }) {
   const [isComplete, setIsComplete] = useState(false);
 
   const onClickComplete = () => {
     setIsComplete(!isComplete);
-
-    if (!isComplete) {
-      setGlobalState("completedTodos", [...globalState.completedTodos, todo]);
-    } else {
-      setGlobalState(
-        "completedTodos",
-        globalState.completedTodos.filter((t) => t !== todo)
-      );
-    }
   };
 
   return (
