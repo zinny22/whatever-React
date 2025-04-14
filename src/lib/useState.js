@@ -1,4 +1,6 @@
-import { main } from "../main";
+import App from "../components/App";
+import { rerender } from "./render";
+import createElement from "./createElement";
 
 /**
  * 헷갈렸던 부분 1 const로 선언한 객체에 직접 할당은 불가능 한줄..
@@ -22,13 +24,15 @@ export default function useState(initialValue) {
 
   const setState = (newValue) => {
     state.states[index] = newValue;
-    // 상태 변경 후 앱 전체 렌더링 진행
-    main();
+    resetIndex();
+    rerender(createElement(App));
   };
 
-  //  다음 useState 인덱스 +1
+  const value = state.states[index];
+
   state.currentIndex++;
-  return [state.states[index], setState];
+
+  return [value, setState];
 }
 
 // 렌더링 시작 전 인덱스를 리셋
