@@ -1,4 +1,4 @@
-type VNode = {
+export type VNode = {
   type: string | ((props: any) => VNode);
   props: {
     [key: string]: any;
@@ -15,7 +15,6 @@ type VNode = {
  * @returns
  */
 function render(vdom: VNode, container: HTMLElement) {
-  console.log(vdom.props);
   // VDOM이 문자열이나 숫자인 경우 텍스트 노드를 생성
   if (typeof vdom === "string" || typeof vdom === "number") {
     const textNode = document.createTextNode(vdom);
