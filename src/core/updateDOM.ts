@@ -7,20 +7,20 @@ let prevVdom: VNode | null = null;
 let _container: HTMLElement | null = null;
 
 /**
- * prevVdom이 null이면 최초 렌더
- * prevVdom이 null이 아니면 diff로 최소 갱신
+ * DOM 업데이트 조건
  */
 function updateDOM(newVdom: VNode, container: HTMLElement) {
   if (prevVdom === null) {
-    // 최초 렌더는 기존 render 사용
     render(newVdom, container);
+    // 최초 렌더는 container의 첫번째 자식을 _container로 설정
+    // (container가 기본적으로 최상위 div에 되어있어서)
+    _container = container.children[0] as HTMLElement;
   } else {
-    // 이후는 diff로 최소 갱신
+    // rerender에서 사용할 diff
     diff(prevVdom, newVdom, container);
   }
 
   prevVdom = newVdom;
-  _container = container;
 }
 
 export default updateDOM;
@@ -29,12 +29,9 @@ export default updateDOM;
  * 상태가 업데이트 될때 호출 (화면 재 렌더링)
  */
 export function rerender() {
-  // container가 있으면 diff로 가도록
   if (_container !== null && prevVdom !== null) {
-    // 렌더링 전에 useState 인덱스 초기화
     resetIndex();
-    updateDOM(App(), _container);
-  } else {
-    console.warn("Container not mounted yet.");
+    const newVDOM = App();
+    updateDOM(newVDOM, _container);
   }
 }

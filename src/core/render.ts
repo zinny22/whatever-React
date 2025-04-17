@@ -14,20 +14,19 @@ export type VNode = {
  * @param container DOM에 실제 노드를 붙일 부모 element
  * @returns
  */
-function render(vdom: VNode, container: HTMLElement) {
+function render(vdom: VNode, container?: HTMLElement) {
   // VDOM이 문자열이나 숫자인 경우 텍스트 노드를 생성
   if (typeof vdom === "string" || typeof vdom === "number") {
     const textNode = document.createTextNode(vdom);
-    container.appendChild(textNode);
-    return;
+    if (container) container.appendChild(textNode);
+    return textNode;
   }
 
   // VDOM의 type이 함수인 경우 컴포넌트로 간주
   if (typeof vdom.type === "function") {
     // 재귀
     const componentVdom = vdom.type(vdom.props);
-    render(componentVdom, container);
-    return;
+    return render(componentVdom, container);
   }
 
   // 일반 DOM노드 생성
@@ -38,7 +37,10 @@ function render(vdom: VNode, container: HTMLElement) {
     Object.keys(vdom.props)
       .filter((key) => key !== "children")
       .forEach((name, i) => {
-        if (name === "onClick") {
+        if (name === "ref" && typeof vdom.props[name] === "function") {
+          // ref 함수 호출해서 el 전달
+          vdom.props[name](domElement);
+        } else if (name === "onClick") {
           // ✅ 이벤트 핸들러: JSX의 onClick → 실제 click 이벤트로 바인딩
           domElement.addEventListener("click", vdom.props[name]);
         } else if (name === "style") {
@@ -98,9 +100,11 @@ function render(vdom: VNode, container: HTMLElement) {
       vdom.ref.current = domElement;
     }
   }
+  if (container) {
+    container.appendChild(domElement);
+  }
 
-  // 생성된 DOM 노드를 부모 노드에 추가
-  container.appendChild(domElement);
+  return domElement;
 }
 
 export default render;

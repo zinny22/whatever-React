@@ -1,15 +1,32 @@
 import createElement from "../core/createElement";
 import useState from "../hooks/useState";
+import Title from "./Title";
 
 function App() {
-  const [count, setCount] = useState(1);
-  console.log("count", count);
+  let inputEl: HTMLInputElement | null = null;
+  const [list, setList] = useState(["일번"]);
+  const onChangeRef = (e: HTMLInputElement) => (inputEl = e);
 
   return (
-    <div>
-      <h1 style={{ color: "red" }}>카운터</h1>
-      <button onClick={() => setCount(count + 1)}>증가</button>
-      <p>{count}</p>
+    <div className="list">
+      <Title />
+
+      <input type="text" ref={onChangeRef} placeholder="할 일을 입력하세요" />
+      <button onClick={() => setList([...list, inputEl?.value || ""])}>
+        추가
+      </button>
+
+      <ul>
+        {list.map((item, index) => (
+          <li key={index}>
+            {item}
+            {index}
+            <button onClick={() => setList(list.filter((_, i) => i !== index))}>
+              삭제
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
