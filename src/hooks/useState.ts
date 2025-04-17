@@ -1,4 +1,4 @@
-import reRender from "../core/reRender";
+import { rerender } from "../core/updateDOM";
 
 const stateStore = {
   state: [] as any[],
@@ -14,7 +14,7 @@ function useState<T>(initialState: T) {
 
   const setState = (value: T) => {
     stateStore.state[index] = value;
-    reRender();
+    rerender();
   };
 
   stateStore.currentIndex++;

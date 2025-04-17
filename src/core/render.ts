@@ -9,7 +9,7 @@ export type VNode = {
 };
 
 /**
- * createElement의 결과로 나온 virtual dom을 실제 dom으로 변환하여 브라우저에 렌더링
+ * createElement의 결과 virtualDOM -> 실제 DOM 생성 (최초 전용)
  * @param vdom createElement의 결과로 나온 virtual dom
  * @param container DOM에 실제 노드를 붙일 부모 element
  * @returns
