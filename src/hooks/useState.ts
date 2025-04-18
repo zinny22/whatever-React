@@ -1,28 +1,27 @@
 import { rerender } from "../core/updateDOM";
 
+// ✅ 상태 저장소 (useState)
 const stateStore = {
   state: [] as any[],
-  currentIndex: 0,
+  index: 0,
 };
 
-function useState<T>(initialState: T) {
-  const index = stateStore.currentIndex;
+function useState(initialValue?: any) {
+  const fixedIndex = stateStore.index;
+  stateStore.state[fixedIndex] ??= initialValue;
 
-  if (stateStore.state[index] === undefined) {
-    stateStore.state[index] = initialState;
-  }
-
-  const setState = (value: T) => {
-    stateStore.state[index] = value;
+  const setState = (newValue: any) => {
+    if (newValue === stateStore.state[fixedIndex]) return;
+    stateStore.state[fixedIndex] = newValue;
     rerender();
   };
 
-  stateStore.currentIndex++;
-  return [stateStore.state[index], setState] as [T, (state: T) => void];
+  stateStore.index++;
+  return [stateStore.state[fixedIndex], setState];
 }
 
 export default useState;
 
-export const resetIndex = () => {
-  stateStore.currentIndex = 0;
-};
+export function resetIndex() {
+  stateStore.index = 0;
+}

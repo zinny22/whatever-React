@@ -1,6 +1,14 @@
 import render, { VNode } from "./render";
 
 function diff(oldVdom: VNode, newVdom: VNode, container: HTMLElement) {
+  // 컴포넌트일 경우 재귀적으로 diff
+  if (typeof oldVdom?.type === "function") {
+    oldVdom = oldVdom.type(oldVdom.props);
+  }
+  if (typeof newVdom?.type === "function") {
+    newVdom = newVdom.type(newVdom.props);
+  }
+
   // 타입이 다르면 전체 교체
   if (oldVdom.type !== newVdom.type) {
     console.log("[타입이 다르면 전체 교체]", oldVdom, newVdom);
@@ -19,17 +27,6 @@ function diff(oldVdom: VNode, newVdom: VNode, container: HTMLElement) {
         container.parentNode.replaceChild(textNode, container);
       }
     }
-  }
-
-  // 컴포넌트일 경우 재귀적으로 diff
-  if (
-    typeof oldVdom.type === "function" &&
-    typeof newVdom.type === "function"
-  ) {
-    const prevRendered = oldVdom.type(oldVdom.props);
-    const newRendered = newVdom.type(newVdom.props);
-
-    return diff(prevRendered, newRendered, container);
   }
 
   // props 비교

@@ -1,37 +1,32 @@
-import App from "../components/App";
 import { resetIndex } from "../hooks/useState";
-import diff from "./diff";
+import App from "../components/App";
+import { flushEffects } from "../hooks/useEffect";
 import render, { VNode } from "./render";
+import diff from "./diff";
 
-let prevVdom: VNode | null = null;
+let prevVNode: VNode | null = null;
 let _container: HTMLElement | null = null;
 
-/**
- * DOM 업데이트 조건
- */
-function updateDOM(newVdom: VNode, container: HTMLElement) {
-  if (prevVdom === null) {
-    render(newVdom, container);
-    // 최초 렌더는 container의 첫번째 자식을 _container로 설정
-    // (container가 기본적으로 최상위 div에 되어있어서)
-    _container = container.children[0] as HTMLElement;
-  } else {
-    // rerender에서 사용할 diff
-    diff(prevVdom, newVdom, container);
-  }
+export default function updateDOM(newVdom: VNode, container: HTMLElement) {
+  container.innerHTML = ""; // 1. 초기화
 
-  prevVdom = newVdom;
+  resetIndex();
+  render(newVdom, container); // 2. 실제 DOM 삽입
+
+  _container = container.firstElementChild as HTMLElement;
+  prevVNode = newVdom;
+
+  flushEffects();
 }
 
-export default updateDOM;
-
-/**
- * 상태가 업데이트 될때 호출 (화면 재 렌더링)
- */
 export function rerender() {
-  if (_container !== null && prevVdom !== null) {
+  if (_container !== null && prevVNode !== null) {
     resetIndex();
-    const newVDOM = App();
-    updateDOM(newVDOM, _container);
+
+    const newVNode = App();
+    diff(prevVNode, newVNode, _container);
+
+    flushEffects();
+    prevVNode = newVNode; // 🔁 마지막에 업데이트
   }
 }

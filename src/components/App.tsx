@@ -1,9 +1,11 @@
 import createElement from "../core/createElement";
+import useEffect from "../hooks/useEffect";
 import useState from "../hooks/useState";
 import Title from "./Title";
 
+let value = "";
+
 function App() {
-  let value = "";
   const [list, setList] = useState(["일번"]);
 
   const onClickAdd = () => {
@@ -13,8 +15,11 @@ function App() {
     }
 
     setList([...list, value]);
-    value = "";
   };
+
+  useEffect(() => {
+    console.log("list가 바뀌었습니다:", list);
+  }, [list]);
 
   return (
     <div className="list">
@@ -32,11 +37,15 @@ function App() {
       <button onClick={onClickAdd}>추가</button>
 
       <ul>
-        {list.map((item, index) => (
+        {list.map((item: string, index: number) => (
           <li key={index}>
             {item}
             {index}
-            <button onClick={() => setList(list.filter((_, i) => i !== index))}>
+            <button
+              onClick={() =>
+                setList(list.filter((_item: string) => _item !== item))
+              }
+            >
               삭제
             </button>
           </li>
