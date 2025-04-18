@@ -42,8 +42,11 @@ function diff(oldVdom: VNode, newVdom: VNode, container: HTMLElement) {
     .forEach((name) => {
       // props가 변경된 경우만 처리 하면 됨
       if (oldProps[name] !== newProps[name]) {
-        if (name === "onClick") {
-          container.addEventListener("click", newProps[name]);
+        if (name.startsWith("on")) {
+          container.addEventListener(
+            name.slice(2).toLowerCase(),
+            newProps[name]
+          );
         } else if (name === "style") {
           Object.assign(container.style, newProps[name]);
         } else if (name === "className") {

@@ -40,9 +40,12 @@ function render(vdom: VNode, container?: HTMLElement) {
         if (name === "ref" && typeof vdom.props[name] === "function") {
           // ref 함수 호출해서 el 전달
           vdom.props[name](domElement);
-        } else if (name === "onClick") {
-          // ✅ 이벤트 핸들러: JSX의 onClick → 실제 click 이벤트로 바인딩
-          domElement.addEventListener("click", vdom.props[name]);
+        } else if (name.startsWith("on")) {
+          // ✅ 이벤트 핸들러: JSX의 on이벤트 핸들러 → 실제 이벤트로 바인딩
+          domElement.addEventListener(
+            name.slice(2).toLowerCase(),
+            vdom.props[name]
+          );
         } else if (name === "style") {
           // ✅ style 객체 적용: { color: "red" } → element.style.color = "red"
           Object.assign(domElement.style, vdom.props[name]);
